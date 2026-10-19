@@ -7,6 +7,7 @@ import { connectDB } from './config/db.js';
 import { configureSession } from './config/session.js';
 import { verifyCsrf } from './middleware/csrf.middleware.js';
 import authRoutes from './routes/auth.routes.js';
+import supportRoutes from './routes/support.routes.js';
 
 dotenv.config();
 
@@ -49,6 +50,9 @@ app.get('/api/health', (req, res) => {
 
 // Authentication Routes
 app.use('/api/auth', authRoutes);
+
+// Support Desk & AI Chatbot Routes (Hansika #5)
+app.use('/api', supportRoutes);
 
 // 404 Handler
 app.use((req, res) => {
