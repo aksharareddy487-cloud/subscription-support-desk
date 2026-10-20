@@ -8,6 +8,8 @@ import { configureSession } from './config/session.js';
 import { verifyCsrf } from './middleware/csrf.middleware.js';
 import authRoutes from './routes/auth.routes.js';
 import articleRoutes from './routes/articleRoutes.js';
+import statusRoutes from './routes/status.routes.js';
+
 dotenv.config();
 
 const app = express();
@@ -49,8 +51,17 @@ app.get('/api/health', (req, res) => {
 
 // Authentication Routes
 app.use('/api/auth', authRoutes);
+
 // Knowledge Management Routes
 app.use('/api', articleRoutes);
+
+// Service Status & Incident Management Routes (Netra #6)
+app.use('/api/status', statusRoutes);
+app.use('/api/incidents', (req, res, next) => {
+  req.url = '/incidents' + (req.url === '/' ? '' : req.url);
+  statusRoutes(req, res, next);
+});
+
 // 404 Handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint not found' });
