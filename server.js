@@ -7,7 +7,7 @@ import { connectDB } from './config/db.js';
 import { configureSession } from './config/session.js';
 import { verifyCsrf } from './middleware/csrf.middleware.js';
 import authRoutes from './routes/auth.routes.js';
-
+import articleRoutes from './routes/articleRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -49,7 +49,8 @@ app.get('/api/health', (req, res) => {
 
 // Authentication Routes
 app.use('/api/auth', authRoutes);
-
+// Knowledge Management Routes
+app.use('/api', articleRoutes);
 // 404 Handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint not found' });
